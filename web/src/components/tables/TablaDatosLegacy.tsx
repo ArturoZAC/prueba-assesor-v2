@@ -191,16 +191,13 @@ export function TablaDatosLegacy<TData extends RowData & { resaltarFila?: Resalt
             ))}
           </tr>
         </thead>
-        <tbody>
+        {/* <tbody>
           {table.getRowModel().rows.map((row) => (
             <tr
               key={row.id}
               onClick={() => {
                 if (!hiddenAddButton) {
-                  if (
-                    actionClick === "agregar" /*&&
-                    // row.original.cuadreIncompleto */
-                  ) {
+                  if (actionClick === "agregar") {
                     setModalContent(modalRenderAdd);
                   } else {
                     setModalContent(modalRenderEdit);
@@ -215,7 +212,6 @@ export function TablaDatosLegacy<TData extends RowData & { resaltarFila?: Resalt
               {row.getVisibleCells().map((cell, index) => {
                 const cellContent = flexRender(cell.column.columnDef.cell, cell.getContext());
 
-                // Solo en la PRIMERA CELDA mostramos el popover
                 if (index === 1) {
                   console.log(row.original);
                   return (
@@ -223,12 +219,10 @@ export function TablaDatosLegacy<TData extends RowData & { resaltarFila?: Resalt
                       key={cell.id}
                       className={`px-3 py-3 text-sm border-b border-r relative border-gray-200 whitespace-nowrap `}
                     >
-                      {/*@ts-ignore */}
                       {row.original.resaltarFila && row.original?.resaltarFila.active != undefined
                         ? row.original?.resaltarFila?.active && (
                             <span className="absolute block w-2 h-2 rounded-full cursor-pointer group bg-primary-main top-1 right-1 z-10">
                               <ul className="absolute top-0 hidden text-white-main w-fit px-3 py-2 shadow-md left-[calc(100%+2px)] group-hover:block rounded  bg-secondary-main">
-                                {/*@ts-ignore */}
                                 {row.original?.resaltarFila.data.map((item: any, index: number) => (
                                   <li key={`resaltaFila${index}`}>{item.label}</li>
                                 ))}
@@ -237,7 +231,6 @@ export function TablaDatosLegacy<TData extends RowData & { resaltarFila?: Resalt
                           )
                         : null}
 
-                      {/*@ts-ignore */}
                       <TooltipFilaCompleta data={row.original}>{cellContent}</TooltipFilaCompleta>
                     </td>
                   );
@@ -253,6 +246,65 @@ export function TablaDatosLegacy<TData extends RowData & { resaltarFila?: Resalt
               })}
             </tr>
           ))}
+        </tbody> */}
+
+        <tbody>
+          {table.getRowModel().rows.map((row) => {
+            const original = row.original as TData; // <-- Aquí le decimos a TS que puede tener resaltarFila
+            return (
+              <tr
+                key={row.id}
+                onClick={() => {
+                  if (!hiddenAddButton) {
+                    if (actionClick === "agregar") {
+                      setModalContent(modalRenderAdd);
+                    } else {
+                      setModalContent(modalRenderEdit);
+                    }
+                    if (actionClick === "editar") setModalContent(modalRenderEdit);
+                    setSelectedRow(original);
+                    openModal();
+                  }
+                }}
+                className={`border-t-2 even:bg-gray-200 hover:bg-secondary-50 `}
+              >
+                {row.getVisibleCells().map((cell, index) => {
+                  const cellContent = flexRender(cell.column.columnDef.cell, cell.getContext());
+
+                  // Solo en la PRIMERA CELDA mostramos el popover
+                  if (index === 1) {
+                    return (
+                      <td
+                        key={cell.id}
+                        className="px-3 py-3 text-sm border-b border-r relative border-gray-200 whitespace-nowrap"
+                      >
+                        {original.resaltarFila?.active && (
+                          <span className="absolute block w-2 h-2 rounded-full cursor-pointer group bg-primary-main top-1 right-1 z-10">
+                            <ul className="absolute top-0 hidden text-white-main w-fit px-3 py-2 shadow-md left-[calc(100%+2px)] group-hover:block rounded bg-secondary-main">
+                              {original.resaltarFila.data.map((item, index) => (
+                                <li key={`resaltaFila${index}`}>{item.label}</li>
+                              ))}
+                            </ul>
+                          </span>
+                        )}
+
+                        <TooltipFilaCompleta data={original}>{cellContent}</TooltipFilaCompleta>
+                      </td>
+                    );
+                  }
+
+                  return (
+                    <td
+                      key={cell.id}
+                      className="px-3 py-3 text-sm border-b border-r border-gray-200 whitespace-nowrap"
+                    >
+                      {cellContent}
+                    </td>
+                  );
+                })}
+              </tr>
+            );
+          })}
         </tbody>
       </table>
     </div>
