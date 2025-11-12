@@ -1,6 +1,11 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
+
+type ResaltarFila = {
+  active: boolean;
+  data: { label: string }[];
+};
 import { useAuth } from "@/context/useAuthContext";
 import {
   ColumnDef,
@@ -16,7 +21,8 @@ import {
 } from "@tanstack/react-table";
 import { Dispatch, SetStateAction, useMemo, useRef, useState } from "react";
 
-export type TablaDatosProps<TData extends RowData> = {
+// export type TablaDatosProps<TData extends RowData> = {
+export type TablaDatosProps<TData extends RowData & { resaltarFila?: ResaltarFila }> = {
   data: TData[];
   columns: ColumnDef<TData>[];
 };
