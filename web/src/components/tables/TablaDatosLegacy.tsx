@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 "use client";
 
-type ResaltarFila = {
+export type ResaltarFila = {
   active: boolean;
   data: { label: string }[];
 };

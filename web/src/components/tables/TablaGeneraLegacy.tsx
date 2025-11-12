@@ -10,7 +10,7 @@ import {
   BuscadorTabla,
   FilterBuscador,
 } from "../../../app/(sistema)/sistema/master-clientes/@components/BuscadorTabla";
-import { ActionType, TablaDatosLegacy } from "./TablaDatosLegacy";
+import { ActionType, ResaltarFila, TablaDatosLegacy } from "./TablaDatosLegacy";
 import { PiMicrosoftExcelLogoFill } from "react-icons/pi";
 import { useAuth } from "@/context/useAuthContext";
 import { FaTableCells } from "react-icons/fa6";
@@ -36,8 +36,10 @@ export function TablaGeneralLegacy<TData extends RowData>({
   hideExportarExcel,
 }: {
   search?: string;
-  data: TData[];
-  columns: ColumnDef<TData>[];
+  // data: TData[];
+  // columns: ColumnDef<TData>[];
+  data: (TData & { resaltarFila?: ResaltarFila })[];
+  columns: ColumnDef<TData & { resaltarFila?: ResaltarFila }>[];
   modalRenderAdd?: ReactNode;
   modalRenderEdit?: ReactNode;
   pagination?: Pagination;
@@ -70,7 +72,7 @@ export function TablaGeneralLegacy<TData extends RowData>({
     openModal();
   }
 
-  const cols = useMemo<ColumnDef<TData>[]>(
+  const cols = useMemo<ColumnDef<TData & { resaltarFila?: ResaltarFila }>[]>(
     () => [
       {
         id: "select",
@@ -98,12 +100,12 @@ export function TablaGeneralLegacy<TData extends RowData>({
         enableSorting: false,
         enableColumnFilter: false,
       },
-      ...columns,
+      ...(columns as ColumnDef<TData & { resaltarFila?: ResaltarFila }>[]),
     ],
     [columns]
   );
 
-  const table = useReactTable<TData>({
+  const table = useReactTable<TData & { resaltarFila?: ResaltarFila }>({
     data,
     columns: cols,
     state: {
