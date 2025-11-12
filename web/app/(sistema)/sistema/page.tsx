@@ -7,12 +7,8 @@ import GraficasFlujo from "./@componentes/pages/GraficasFlujo";
 import GraficasOperaciones from "./@componentes/pages/GraficasOperaciones";
 import CuadroResumen from "./@componentes/pages/CuadroResumen";
 
-export default async function page({
-  searchParams,
-}: {
-  searchParams: Promise<{ option: string; mes: string }>;
-}) {
-  const { option, mes } = await searchParams;
+export default function page({ searchParams }: { searchParams: { option: string; mes: string } }) {
+  const { option, mes } = searchParams;
 
   return (
     <>
