@@ -21,8 +21,8 @@ import {
 } from "@tanstack/react-table";
 import { Dispatch, SetStateAction, useMemo, useRef, useState } from "react";
 
-// export type TablaDatosProps<TData extends RowData> = {
-export type TablaDatosProps<TData extends RowData & { resaltarFila?: ResaltarFila }> = {
+export type TablaDatosProps<TData extends RowData> = {
+  // export type TablaDatosProps<TData extends RowData & { resaltarFila?: ResaltarFila }> = {
   data: TData[];
   columns: ColumnDef<TData>[];
 };
@@ -70,7 +70,7 @@ export function TooltipFilaCompleta({ children, data }: TooltipFilaCompletaProps
   );
 }
 
-export function TablaDatosLegacy<TData extends RowData>({
+export function TablaDatosLegacy<TData extends RowData & { resaltarFila?: ResaltarFila }>({
   data,
   columns,
   globalFilter,
