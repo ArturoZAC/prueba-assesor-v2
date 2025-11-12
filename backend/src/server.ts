@@ -22,6 +22,7 @@ app.use(
       "https://sistema.assessorperu.com",
       "http://localhost:3000",
       "http://localhost:5173",
+      "https://prueba-assesor-v2.vercel.app",
     ],
     credentials: true,
   })
