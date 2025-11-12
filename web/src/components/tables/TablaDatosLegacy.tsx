@@ -250,7 +250,7 @@ export function TablaDatosLegacy<TData extends RowData & { resaltarFila?: Resalt
 
         <tbody>
           {table.getRowModel().rows.map((row) => {
-            const original = row.original as TData; // <-- Aquí le decimos a TS que puede tener resaltarFila
+            const original = row.original as TData; // casteo a TData para que TS reconozca resaltarFila
             return (
               <tr
                 key={row.id}
@@ -281,7 +281,7 @@ export function TablaDatosLegacy<TData extends RowData & { resaltarFila?: Resalt
                         {original.resaltarFila?.active && (
                           <span className="absolute block w-2 h-2 rounded-full cursor-pointer group bg-primary-main top-1 right-1 z-10">
                             <ul className="absolute top-0 hidden text-white-main w-fit px-3 py-2 shadow-md left-[calc(100%+2px)] group-hover:block rounded bg-secondary-main">
-                              {original?.resaltarFila?.data?.map((item, index) => (
+                              {original.resaltarFila?.data?.map((item, index) => (
                                 <li key={`resaltaFila${index}`}>{item.label}</li>
                               ))}
                             </ul>
